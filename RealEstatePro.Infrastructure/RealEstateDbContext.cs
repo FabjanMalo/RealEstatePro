@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RealEstatePro.Application.Abstractions.Database;
 using RealEstatePro.Domain.BoughtEstates;
 using RealEstatePro.Domain.EstateImages;
 using RealEstatePro.Domain.Estates;
@@ -13,13 +14,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace RealEstatePro.Infrastructure;
-public class RealEstateDbContext : DbContext
+public class RealEstateDbContext : DbContext, IApplicationContext
 {
     public RealEstateDbContext(DbContextOptions<RealEstateDbContext> options) : base(options)
     { }
 
     public DbSet<Estate> Estates { get; set; }
-    public DbSet<User> Users { get; set; }
+    public DbSet<User> Users => Set<User>();
     public DbSet<UserRole> UserRoles { get; set; }
     public DbSet<ReservationEntity> Reservations { get; set; }
     public DbSet<EstateImage> EstateImages { get; set; }

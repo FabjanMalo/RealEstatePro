@@ -14,7 +14,7 @@ namespace RealEstatePro.Infrastructure.Configurations;
 //    {
 //        builder
 //            .HasOne(op => op.Estate)
-//            .WithOne()
+//            .WithOne() many 
 //            .OnDelete(DeleteBehavior.NoAction);
 
 //        builder

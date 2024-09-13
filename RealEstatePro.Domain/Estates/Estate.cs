@@ -34,7 +34,6 @@ public class Estate
 
     public DateTime CreatedOnUtc { get; private set; }
 
-    //public List<ReservationEntity> ReservationEntities { get; private set; }
     public List<EstateImage> EstateImages { get; private set; }
 
   //  public BoughtEstate BoughtEstate { get; private set; }

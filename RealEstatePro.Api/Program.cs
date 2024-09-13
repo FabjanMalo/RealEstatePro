@@ -1,4 +1,5 @@
 using RealEstatePro.Infrastructure;
+using RealEstatePro.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.ConfigureInfrastructureServices(builder.Configuration);
+
+builder.Services.ConfigureApplicationServices();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
