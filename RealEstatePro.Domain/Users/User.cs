@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace RealEstatePro.Domain.Users;
-public class User
+public class User 
 {
 
     public User(Guid id, Guid userRoleId, string firstName, string lastName, string email, string password, DateTime createdOnUtc)

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RealEstatePro.Application.Users.Register;
@@ -9,6 +10,7 @@ namespace RealEstatePro.Api.Controllers;
 [ApiController]
 public class UserController(ISender _sender) : ControllerBase
 {
+
     [HttpPost("register")]
 
     public async Task<IResult> Register([FromBody] UserDto userDto)
