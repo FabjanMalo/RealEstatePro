@@ -1,22 +1,27 @@
 ﻿using BCrypt.Net;
 using MediatR;
+using RealEstatePro.Application.Abstractions.Contracts.AuthService;
 using RealEstatePro.Application.Abstractions.Database;
+using RealEstatePro.Application.Models.Identity;
 using RealEstatePro.Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace RealEstatePro.Application.Users.Register;
 public class RegisterUserCommandHandler
     (IApplicationContext _context,
-    IUserRepository _userRepository)
+    IUserRepository _userRepository
+   )
     : IRequestHandler<RegisterUserCommand, Guid>
 {
     public async Task<Guid> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
         var isUnique = await _userRepository.IsEmailUnique(request.UserDto.Email, cancellationToken);
+
 
         if (!isUnique)
         {
@@ -34,5 +39,6 @@ public class RegisterUserCommandHandler
         await _context.SaveChangesAsync(cancellationToken);
 
         return user.Id;
+
     }
 }

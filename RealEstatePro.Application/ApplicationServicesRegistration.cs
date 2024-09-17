@@ -1,6 +1,8 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using RealEstatePro.Application.Abstractions.Behaviours;
+using RealEstatePro.Domain.Roles;
+using RealEstatePro.Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +27,8 @@ public static class ApplicationServicesRegistration
         });
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+
 
         return services;
     }

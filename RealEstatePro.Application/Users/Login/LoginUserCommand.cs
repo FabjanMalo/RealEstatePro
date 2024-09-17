@@ -1,14 +1,13 @@
 ﻿using MediatR;
 using RealEstatePro.Application.Models.Identity;
-using RealEstatePro.Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RealEstatePro.Application.Users.Register;
-public class RegisterUserCommand : IRequest<Guid>
+namespace RealEstatePro.Application.Users.Login;
+public class LoginUserCommand : IRequest<LoginUserResponse>
 {
-    public UserDto UserDto { get; set; }
+    public LoginUserDto LoginUserDto { get; set; }
 }

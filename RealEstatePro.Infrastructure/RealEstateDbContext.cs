@@ -19,10 +19,10 @@ public class RealEstateDbContext : DbContext, IApplicationContext
     public RealEstateDbContext(DbContextOptions<RealEstateDbContext> options) : base(options)
     { }
 
-   
+
     public DbSet<Estate> Estates { get; set; }
     public DbSet<User> Users => Set<User>();
-    public DbSet<UserRole> UserRoles { get; set; }
+    public DbSet<UserRole> UserRoles => Set<UserRole>();
     public DbSet<ReservationEntity> Reservations { get; set; }
     public DbSet<EstateImage> EstateImages { get; set; }
     //public DbSet<BoughtEstate> BoughtEstates { get; set; }
