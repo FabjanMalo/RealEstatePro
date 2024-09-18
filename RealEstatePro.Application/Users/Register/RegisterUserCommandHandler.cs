@@ -2,6 +2,7 @@
 using MediatR;
 using RealEstatePro.Application.Abstractions.Contracts.AuthService;
 using RealEstatePro.Application.Abstractions.Database;
+using RealEstatePro.Application.Mail;
 using RealEstatePro.Application.Models.Identity;
 using RealEstatePro.Domain.Users;
 using System;
@@ -14,7 +15,8 @@ using System.Threading.Tasks;
 namespace RealEstatePro.Application.Users.Register;
 public class RegisterUserCommandHandler
     (IApplicationContext _context,
-    IUserRepository _userRepository
+    IUserRepository _userRepository,
+    IEmailSender _emailSender
    )
     : IRequestHandler<RegisterUserCommand, Guid>
 {
@@ -32,7 +34,19 @@ public class RegisterUserCommandHandler
 
         request.UserDto.Password = password;
 
+
         var user = User.CreateUser(request.UserDto);
+
+        try
+        {
+            var re = await _emailSender.SendEmail(user);
+
+        }
+        catch (Exception)
+        {
+
+            throw new Exception("Failed to send confirmation email");
+        }
 
         await _userRepository.Add(user);
 
