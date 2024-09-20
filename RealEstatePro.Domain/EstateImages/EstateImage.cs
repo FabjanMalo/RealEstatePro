@@ -1,4 +1,5 @@
-﻿using RealEstatePro.Domain.Estates;
+﻿using Microsoft.AspNetCore.Http;
+using RealEstatePro.Domain.Estates;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,4 +19,28 @@ public class EstateImage
     public Estate Estate { get; private set; }
 
     public byte[] Image { get; private set; }
+
+    public EstateImage(Guid id, Guid estateId, byte[] image)
+    {
+        Id = id;
+        EstateId = estateId;
+        Image = image;
+    }
+
+
+    public static EstateImage CreateImage(Guid estateId, byte[] image)
+    {
+        var id = Guid.NewGuid();
+
+        return new EstateImage(id, estateId, image);
+    }
+
+    public static async Task<byte[]> ConvertToByteArray(IFormFile file)
+    {
+
+        using var memoryStream = new MemoryStream();
+        await file.CopyToAsync(memoryStream);
+
+        return memoryStream.ToArray();
+    }
 }

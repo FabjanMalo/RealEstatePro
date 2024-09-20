@@ -21,7 +21,19 @@ public class Estate
     public Guid UserId { get; private set; }
     public User User { get; private set; }
 
-
+    public Estate(Guid id, string name, EstateCategory estateCategory, string address, decimal price, string? description, decimal surfaceArea, int floorNumber, bool isPromoted, DateTime createdOnUtc)
+    {
+        Id = id;
+        Name = name;
+        EstateCategory = estateCategory;
+        Address = address;
+        Price = price;
+        Description = description;
+        SurfaceArea = surfaceArea;
+        FloorNumber = floorNumber;
+        IsPromoted = isPromoted;
+        CreatedOnUtc = createdOnUtc;
+    }
     public string Name { get; private set; }
     public EstateCategory EstateCategory { get; private set; }
     public string Address { get; private set; }
@@ -34,7 +46,20 @@ public class Estate
 
     public DateTime CreatedOnUtc { get; private set; }
 
-    public List<EstateImage> EstateImages { get; private set; }
+    public List<EstateImage> EstateImages { get; private set; } = [];
 
-  //  public BoughtEstate BoughtEstate { get; private set; }
+    public static Estate CreateEstate(CreateEstateDto estateDto)
+    {
+        var id = Guid.NewGuid();
+
+        var date = DateTime.UtcNow;
+
+        return new Estate(id, estateDto.Name, estateDto.EstateCategory, estateDto.Address,
+             estateDto.Price, estateDto.Description, estateDto.SurfaceArea,
+             estateDto.FloorNumber, estateDto.IsPromoted, date);
+
+    }
+
+
+    //  public BoughtEstate BoughtEstate { get; private set; }
 }

@@ -39,8 +39,8 @@ public class User
     public DateTime CreatedOnUtc { get; private set; }
 
 
-    public List<Estate> Estates { get; private set; }
-    public List<ReservationEntity> ReservationEntities { get; private set; }
+    public List<Estate> Estates { get; private set; } = [];
+    public List<ReservationEntity> ReservationEntities { get; private set; } = [];
 
     public static User CreateUser(UserDto userDto)
     {
