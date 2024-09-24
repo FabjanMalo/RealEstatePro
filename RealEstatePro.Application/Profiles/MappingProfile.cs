@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RealEstatePro.Application.Estates.Create;
+using RealEstatePro.Application.Estates.GetAll;
 using RealEstatePro.Application.Users.Login;
 using RealEstatePro.Domain.Estates;
 using RealEstatePro.Domain.Users;
@@ -19,5 +20,6 @@ public class MappingProfile : Profile
 
 
         CreateMap<Estate, CreateEstateDto>().ReverseMap();
+        CreateMap<Estate, EstateDto>().ReverseMap();
     }
 }

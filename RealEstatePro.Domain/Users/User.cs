@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace RealEstatePro.Domain.Users;
-public class User 
+public class User
 {
 
     public User(Guid id, Guid userRoleId, string firstName, string lastName, string email, string password, DateTime createdOnUtc)
@@ -42,12 +42,12 @@ public class User
     public List<Estate> Estates { get; private set; } = [];
     public List<ReservationEntity> ReservationEntities { get; private set; } = [];
 
-    public static User CreateUser(UserDto userDto)
+    public static User CreateUser(UserDto userDto, Guid userRoleId)
     {
         Guid id = Guid.NewGuid();
 
         var CreatedOnUtc = DateTime.UtcNow;
 
-        return new User(id, userDto.UserRoleId, userDto.FirstName, userDto.LastName, userDto.Email, userDto.Password, CreatedOnUtc);
+        return new User(id, userRoleId, userDto.FirstName, userDto.LastName, userDto.Email, userDto.Password, CreatedOnUtc);
     }
 }

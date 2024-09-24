@@ -7,11 +7,13 @@ using Microsoft.OpenApi.Models;
 using RealEstatePro.Application.Abstractions.Contracts;
 using RealEstatePro.Application.Abstractions.Contracts.AuthService;
 using RealEstatePro.Application.Abstractions.Database;
+using RealEstatePro.Application.EstateImages;
 using RealEstatePro.Application.Estates;
 using RealEstatePro.Application.Mail;
 using RealEstatePro.Application.Users;
 using RealEstatePro.Infrastructure.Contracts;
 using RealEstatePro.Infrastructure.Contracts.AuthService;
+using RealEstatePro.Infrastructure.EstateImages;
 using RealEstatePro.Infrastructure.Estates;
 using RealEstatePro.Infrastructure.Mail;
 using RealEstatePro.Infrastructure.Users;
@@ -40,6 +42,7 @@ public static class InfrastructureServicesRegistration
         services.AddScoped<IAuthManager, AuthManager>();
 
         services.AddScoped<IEstateRepository, EstateRepository>();
+        services.AddScoped<IEstateImageRepository, EstateImageRepository>();
 
         //Email Section
 

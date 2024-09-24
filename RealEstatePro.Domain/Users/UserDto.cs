@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 namespace RealEstatePro.Domain.Users;
 public record UserDto
 {
-    
-    public Guid UserRoleId { get; init; }
+
+    public string UserRoleName { get; init; }
     public string FirstName { get; init; }
     public string LastName { get; init; }
     public string Email { get; init; }

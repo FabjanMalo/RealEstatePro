@@ -1,14 +1,9 @@
-﻿using RealEstatePro.Domain.BoughtEstates;
+﻿
 using RealEstatePro.Domain.EstateImages;
-using RealEstatePro.Domain.Reservations;
 using RealEstatePro.Domain.Users;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace RealEstatePro.Domain.Estates;
 public class Estate

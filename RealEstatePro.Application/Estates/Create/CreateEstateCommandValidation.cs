@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,9 +41,25 @@ public class CreateEstateCommandValidation : AbstractValidator<CreateEstateComma
         RuleFor(x => x.CreateEstateDto.Images)
             .NotNull()
             .Must(images => images.Count >= 2 && images.Count <= 5)
-            .WithMessage("You must upload between 2 and 5 images.");
+            .WithMessage("You must upload between 2 and 5 images.")
+            .Must(CheckFormat).WithMessage("Only .jpg, .jpeg, and .png formats are allowed.");
 
 
 
+
+
+    }
+    private bool CheckFormat(IList<IFormFile> images)
+    {
+        foreach (var image in images)
+        {
+            var extension = Path.GetExtension(image.FileName).ToLowerInvariant();
+
+            if (extension != ".jpg" && extension != ".jpeg" && extension != ".png")
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }

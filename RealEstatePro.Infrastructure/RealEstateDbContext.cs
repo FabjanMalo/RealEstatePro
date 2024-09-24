@@ -20,7 +20,7 @@ public class RealEstateDbContext : DbContext, IApplicationContext
     { }
 
 
-    public DbSet<Estate> Estates { get; set; }
+    public DbSet<Estate> Estates => Set<Estate>();
     public DbSet<User> Users => Set<User>();
     public DbSet<UserRole> UserRoles => Set<UserRole>();
     public DbSet<ReservationEntity> Reservations { get; set; }

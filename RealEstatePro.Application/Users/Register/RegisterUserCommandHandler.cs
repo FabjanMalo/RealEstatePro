@@ -1,5 +1,6 @@
 ﻿using BCrypt.Net;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using RealEstatePro.Application.Abstractions.Contracts.AuthService;
 using RealEstatePro.Application.Abstractions.Database;
 using RealEstatePro.Application.Mail;
@@ -34,8 +35,13 @@ public class RegisterUserCommandHandler
 
         request.UserDto.Password = password;
 
+        var userRole = await _context.UserRoles
+            .FirstOrDefaultAsync(
+            r => r.Name.Contains(request.UserDto.UserRoleName), cancellationToken)
+            ?? throw new Exception($"User role '{request.UserDto.UserRoleName}' does not exist.");
 
-        var user = User.CreateUser(request.UserDto);
+
+        var user = User.CreateUser(request.UserDto, userRole.Id);
 
         try
         {

@@ -43,4 +43,19 @@ public class EstateImage
 
         return memoryStream.ToArray();
     }
+
+    public static bool CheckFormat(IList<IFormFile> images)
+    {
+        foreach (var image in images)
+        {
+            var extension = Path.GetExtension(image.FileName).ToLowerInvariant();
+
+            if (extension != ".jpg" && extension != ".jpeg" && extension != ".png")
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
