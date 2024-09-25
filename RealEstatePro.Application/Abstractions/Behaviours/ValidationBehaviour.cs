@@ -38,7 +38,7 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
             .Select(v => v.Validate(context))
             .Where(v => v.Errors.Count != 0)
             .SelectMany(v => v.Errors)
-            .Select(v => new Error(v.PropertyName, v.ErrorMessage))
+            .Select(v => Error.BadRequest(v.PropertyName, v.ErrorMessage))
             .ToList();
 
         if (validationErrors.Count != 0)

@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RealEstatePro.Application.Abstractions.Database;
+using RealEstatePro.Domain.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,9 @@ namespace RealEstatePro.Application.Estates.GetAll;
 public class GetAllEstateQueryHandler
     (IApplicationContext _context,
     IMapper _mapper)
-    : IRequestHandler<GetAllEstateQuery, List<EstateDto>>
+    : IRequestHandler<GetAllEstateQuery, Result<List<EstateDto>>>
 {
-    public async Task<List<EstateDto>> Handle(GetAllEstateQuery request, CancellationToken cancellationToken)
+    public async Task<Result<List<EstateDto>>> Handle(GetAllEstateQuery request, CancellationToken cancellationToken)
     {
 
         var estate = await _context.Estates

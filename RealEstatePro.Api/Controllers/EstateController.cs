@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RealEstatePro.Api.Extensions;
 using RealEstatePro.Application.Estates.AddImages;
 using RealEstatePro.Application.Estates.Create;
 using RealEstatePro.Application.Estates.GetAll;
@@ -21,7 +22,13 @@ public class EstateController(ISender _sender) : ControllerBase
     {
         var result = await _sender.Send(new GetAllEstateQuery());
 
-        return Results.Ok(result);
+        if (result.IsFailure)
+        {
+            return result.ToProblemDetails();
+        }
+
+
+        return Results.Ok(result.Value);
     }
 
 
@@ -31,7 +38,12 @@ public class EstateController(ISender _sender) : ControllerBase
     {
         var result = await _sender.Send(new GetPromotedEstatesQuery());
 
-        return Results.Ok(result);
+        if (result.IsFailure)
+        {
+            return result.ToProblemDetails();
+        }
+
+        return Results.Ok(result.Value);
     }
 
 
@@ -44,7 +56,12 @@ public class EstateController(ISender _sender) : ControllerBase
 
         var result = await _sender.Send(command);
 
-        return Results.Ok(result);
+        if (result.IsFailure)
+        {
+            return result.ToProblemDetails();
+        }
+
+        return Results.Ok(result.Value);
     }
 
     [HttpPost("addImages")]
@@ -58,8 +75,12 @@ public class EstateController(ISender _sender) : ControllerBase
             Images = images
         };
 
-        await _sender.Send(command);
+        var result = await _sender.Send(command);
 
+        if (result.IsFailure)
+        {
+            return result.ToProblemDetails();
+        }
         return Results.NoContent();
     }
 }

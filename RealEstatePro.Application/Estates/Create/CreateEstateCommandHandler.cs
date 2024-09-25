@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RealEstatePro.Application.Abstractions.Database;
+using RealEstatePro.Domain.Abstractions;
 using RealEstatePro.Domain.EstateImages;
 using RealEstatePro.Domain.Estates;
 
@@ -8,16 +9,16 @@ namespace RealEstatePro.Application.Estates.Create;
 public class CreateEstateCommandHandler
       (IApplicationContext _context,
        IEstateRepository _estateRepository)
-    : IRequestHandler<CreateEstateCommand, Guid>
+    : IRequestHandler<CreateEstateCommand, Result<Guid>>
 {
-    public async Task<Guid> Handle(CreateEstateCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Guid>> Handle(CreateEstateCommand request, CancellationToken cancellationToken)
     {
         var user = await _context.Users
            .FirstOrDefaultAsync(u => u.Id == request.CreateEstateDto.UserId, cancellationToken);
 
         if (user is null)
         {
-            throw new Exception("User not found for the provided User ID.");
+            return Result.Failure<Guid>(EstateErrors.InvalidUserId);
         }
 
         var isNameUnique = await _estateRepository
@@ -25,7 +26,7 @@ public class CreateEstateCommandHandler
 
         if (!isNameUnique)
         {
-            throw new Exception("The provided name is already taken. Please try another name.");
+            Result.Failure<Guid>(EstateErrors.NameNotUnique);
         }
 
         var estate = Estate.CreateEstate(request.CreateEstateDto);

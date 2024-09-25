@@ -57,5 +57,4 @@ public class EstateImage
         }
         return true;
     }
-
 }

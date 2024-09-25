@@ -5,10 +5,12 @@ using RealEstatePro.Application.Abstractions.Contracts.AuthService;
 using RealEstatePro.Application.Abstractions.Database;
 using RealEstatePro.Application.Mail;
 using RealEstatePro.Application.Models.Identity;
+using RealEstatePro.Domain.Abstractions;
 using RealEstatePro.Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,16 +21,17 @@ public class RegisterUserCommandHandler
     IUserRepository _userRepository,
     IEmailSender _emailSender
    )
-    : IRequestHandler<RegisterUserCommand, Guid>
+    : IRequestHandler<RegisterUserCommand, Result<Guid>>
 {
-    public async Task<Guid> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Guid>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
+
         var isUnique = await _userRepository.IsEmailUnique(request.UserDto.Email, cancellationToken);
 
 
         if (!isUnique)
         {
-            throw new Exception("Email is not unique. Try another!");
+            return Result.Failure<Guid>(UserErrors.EmailNotUnique);
         }
 
         var password = BCrypt.Net.BCrypt.EnhancedHashPassword(request.UserDto.Password, 13);
@@ -37,9 +40,14 @@ public class RegisterUserCommandHandler
 
         var userRole = await _context.UserRoles
             .FirstOrDefaultAsync(
-            r => r.Name.Contains(request.UserDto.UserRoleName), cancellationToken)
-            ?? throw new Exception($"User role '{request.UserDto.UserRoleName}' does not exist.");
+            r => r.Name.Contains(request.UserDto.UserRoleName), cancellationToken);
 
+
+
+        if (userRole is null)
+        {
+            return Result.Failure<Guid>(UserErrors.InvalidUserRole(request.UserDto.UserRoleName));
+        }
 
         var user = User.CreateUser(request.UserDto, userRole.Id);
 
@@ -51,7 +59,7 @@ public class RegisterUserCommandHandler
         catch (Exception)
         {
 
-            throw new Exception("Failed to send confirmation email");
+            return Result.Failure<Guid>(UserErrors.EmailSendingFailed);
         }
 
         await _userRepository.Add(user);

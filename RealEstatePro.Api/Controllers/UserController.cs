@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RealEstatePro.Api.Extensions;
 using RealEstatePro.Application.Users.Login;
 using RealEstatePro.Application.Users.Register;
+using RealEstatePro.Domain.Abstractions;
 using RealEstatePro.Domain.Users;
 
 namespace RealEstatePro.Api.Controllers;
@@ -21,7 +23,12 @@ public class UserController(ISender _sender) : ControllerBase
 
         var result = await _sender.Send(command);
 
-        return Results.Ok(result);
+        if (result.IsFailure)
+        {
+            return result.ToProblemDetails();
+        }
+
+        return Results.Ok(result.Value);
     }
 
     [HttpPost("login")]
@@ -33,6 +40,11 @@ public class UserController(ISender _sender) : ControllerBase
 
         var result = await _sender.Send(command);
 
-        return Results.Ok(result);
+        if (result.IsFailure)
+        {
+            return result.ToProblemDetails();
+        }
+
+        return Results.Ok(result.Value);
     }
 }

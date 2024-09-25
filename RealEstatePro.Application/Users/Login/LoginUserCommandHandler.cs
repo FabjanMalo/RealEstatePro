@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using RealEstatePro.Application.Abstractions.Contracts.AuthService;
 using RealEstatePro.Application.Abstractions.Database;
 using RealEstatePro.Application.Models.Identity;
+using RealEstatePro.Domain.Abstractions;
+using RealEstatePro.Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,15 +16,16 @@ namespace RealEstatePro.Application.Users.Login;
 public class LoginUserCommandHandler(
     IApplicationContext _context,
     IAuthManager _authManager)
-    : IRequestHandler<LoginUserCommand, LoginUserResponse>
+    : IRequestHandler<LoginUserCommand, Result<LoginUserResponse>>
 {
-    public async Task<LoginUserResponse> Handle(LoginUserCommand request, CancellationToken cancellationToken)
+    public async Task<Result<LoginUserResponse>> Handle(LoginUserCommand request, CancellationToken cancellationToken)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.LoginUserDto.Email);
+        var user = await _context.Users
+            .FirstOrDefaultAsync(u => u.Email == request.LoginUserDto.Email, cancellationToken);
 
         if (user is null)
         {
-            throw new Exception($"User with {request.LoginUserDto.Email} not found.");
+            return Result.Failure<LoginUserResponse>(UserErrors.UserNotFound(request.LoginUserDto.Email));
         }
 
         var isCorrectPassword = BCrypt.Net.BCrypt
@@ -30,7 +33,7 @@ public class LoginUserCommandHandler(
 
         if (!isCorrectPassword)
         {
-            throw new Exception("Incorrect Password");
+            return Result.Failure<LoginUserResponse>(UserErrors.InvalidCredentials);
         }
 
         var token = await _authManager.CreateToken(user);

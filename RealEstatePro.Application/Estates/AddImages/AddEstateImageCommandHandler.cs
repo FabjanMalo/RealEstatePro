@@ -2,7 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using RealEstatePro.Application.Abstractions.Database;
 using RealEstatePro.Application.EstateImages;
+using RealEstatePro.Domain.Abstractions;
 using RealEstatePro.Domain.EstateImages;
+using RealEstatePro.Domain.Estates;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,19 +15,23 @@ namespace RealEstatePro.Application.Estates.AddImages;
 public class AddEstateImageCommandHandler
     (IApplicationContext _context,
     IEstateImageRepository _imageRepository)
-    : IRequestHandler<AddEstateImageCommand>
+    : IRequestHandler<AddEstateImageCommand, Result>
 {
-    public async Task Handle(AddEstateImageCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(AddEstateImageCommand request, CancellationToken cancellationToken)
     {
         var estate = await _context.Estates
             .Include(e => e.EstateImages)
-            .FirstOrDefaultAsync(x => x.Id == request.EstateId, cancellationToken)
-            ?? throw new Exception("Estate not found.");
+            .FirstOrDefaultAsync(x => x.Id == request.EstateId, cancellationToken);
+
+        if (estate is null)
+        {
+            return Result.Failure(EstateErrors.InvalidEstateId);
+        }
 
 
         if ((request.Images.Count + estate.EstateImages.Count) > 5)
         {
-            throw new Exception("You are allowed to have a maximum of 5 photos for an estate.");
+            return Result.Failure(EstateErrors.ImageLimitExceeded);
         }
 
 
@@ -38,7 +44,10 @@ public class AddEstateImageCommandHandler
             await _imageRepository.Add(estateImg);
         }
 
+
         await _context.SaveChangesAsync(cancellationToken);
 
+        return Result.Success();
     }
+
 }
