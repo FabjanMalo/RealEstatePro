@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35208.52
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealEstatePro.Api", "RealEstatePro.Api\RealEstatePro.Api.csproj", "{0407A74F-6481-4A45-AF76-777081B60608}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealEstatePro.Api", "RealEstatePro.Api\RealEstatePro.Api.csproj", "{0407A74F-6481-4A45-AF76-777081B60608}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{8410F74A-C4F8-4A21-A263-5563A0526D84}"
 EndProject
@@ -11,11 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{B8AA2E0F-8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{4E038E84-7F98-4050-BF19-18CFAFBAD7EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealEstatePro.Domain", "RealEstatePro.Domain\RealEstatePro.Domain.csproj", "{241A6BB7-FA59-4245-BB5D-A2C1FC56B785}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealEstatePro.Domain", "RealEstatePro.Domain\RealEstatePro.Domain.csproj", "{241A6BB7-FA59-4245-BB5D-A2C1FC56B785}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealEstatePro.Application", "RealEstatePro.Application\RealEstatePro.Application.csproj", "{8284F900-7FAD-4D39-BF74-963D4DA70F24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealEstatePro.Application", "RealEstatePro.Application\RealEstatePro.Application.csproj", "{8284F900-7FAD-4D39-BF74-963D4DA70F24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealEstatePro.Infrastructure", "RealEstatePro.Infrastructure\RealEstatePro.Infrastructure.csproj", "{7F81B092-4A3E-4509-8ED7-8AB931055C84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealEstatePro.Infrastructure", "RealEstatePro.Infrastructure\RealEstatePro.Infrastructure.csproj", "{7F81B092-4A3E-4509-8ED7-8AB931055C84}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{CFF3AE7D-30EF-4877-9BD3-B95D594E935D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{7F81B092-4A3E-4509-8ED7-8AB931055C84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F81B092-4A3E-4509-8ED7-8AB931055C84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F81B092-4A3E-4509-8ED7-8AB931055C84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFF3AE7D-30EF-4877-9BD3-B95D594E935D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFF3AE7D-30EF-4877-9BD3-B95D594E935D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFF3AE7D-30EF-4877-9BD3-B95D594E935D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFF3AE7D-30EF-4877-9BD3-B95D594E935D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

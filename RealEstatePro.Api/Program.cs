@@ -15,11 +15,14 @@ builder.Services.ConfigureJWT(builder.Configuration);
 
 builder.Services.ConfigureInfrastructureServices(builder.Configuration);
 
+builder.Services.ConfigureKafkaServices();
+
 builder.Services.ConfigureApplicationServices();
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddProblemDetails();
+
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

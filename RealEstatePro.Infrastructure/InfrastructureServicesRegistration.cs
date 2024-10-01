@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Confluent.Kafka;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,12 +10,14 @@ using RealEstatePro.Application.Abstractions.Contracts.AuthService;
 using RealEstatePro.Application.Abstractions.Database;
 using RealEstatePro.Application.EstateImages;
 using RealEstatePro.Application.Estates;
+using RealEstatePro.Application.KafkaService;
 using RealEstatePro.Application.Mail;
 using RealEstatePro.Application.Users;
 using RealEstatePro.Infrastructure.Contracts;
 using RealEstatePro.Infrastructure.Contracts.AuthService;
 using RealEstatePro.Infrastructure.EstateImages;
 using RealEstatePro.Infrastructure.Estates;
+using RealEstatePro.Infrastructure.KafkaService;
 using RealEstatePro.Infrastructure.Mail;
 using RealEstatePro.Infrastructure.Users;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -52,6 +55,22 @@ public static class InfrastructureServicesRegistration
         services.Configure<Email>(configuration
             .GetSection("EmailTemplates")
             .GetSection("UserRegister"));
+
+        return services;
+    }
+
+    public static IServiceCollection ConfigureKafkaServices(this IServiceCollection services)
+    {
+        var config = new ProducerConfig
+        {
+            BootstrapServers = "localhost:29092",
+            AllowAutoCreateTopics = true,
+            Acks = Acks.All
+        };
+
+        services.AddSingleton<IProducer<Null, string>>(new ProducerBuilder<Null, string>(config).Build());
+
+        services.AddSingleton<IKafkaProducer, KafkaProducer>();
 
         return services;
     }
