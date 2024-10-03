@@ -4,6 +4,8 @@ using RealEstatePro.Api.Middleware;
 using RealEstatePro.Domain.Roles;
 using RealEstatePro.Domain.Users;
 using Microsoft.AspNetCore.Identity;
+using Hangfire;
+using RealEstatePro.Infrastructure.Users;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +25,16 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddProblemDetails();
 
+builder.Services.AddHangfire((sp, config) =>
+{
+    var connectionString = sp.GetRequiredService<IConfiguration>().GetConnectionString("HangFireConnectingString");
 
+    config.UseSimpleAssemblyNameTypeSerializer();
+    config.UseRecommendedSerializerSettings();
+    config.UseSqlServerStorage(connectionString);
+});
+builder.Services.AddScoped<UserRecurringJobs>();
+builder.Services.AddHangfireServer();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -46,6 +57,14 @@ app.UseCors(x => x.AllowAnyOrigin()
                     .AllowAnyHeader());
 
 app.UseHttpsRedirection();
+
+app.UseHangfireDashboard();
+
+RecurringJob.AddOrUpdate<UserRecurringJobs>("updateUser", x
+    => x.UpdateUserNameWrapper("ani@gmail.com"), "*/3 * * * *");
+
+RecurringJob.AddOrUpdate<UserRecurringJobs>("deleteUsers", x
+    => x.DeleteInactiveUser(), Cron.Daily);
 
 app.UseAuthentication();
 

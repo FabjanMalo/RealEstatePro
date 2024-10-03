@@ -1,4 +1,5 @@
-﻿using RealEstatePro.Domain.BoughtEstates;
+﻿using Microsoft.Extensions.Primitives;
+using RealEstatePro.Domain.BoughtEstates;
 using RealEstatePro.Domain.Estates;
 using RealEstatePro.Domain.Reservations;
 using RealEstatePro.Domain.Roles;
@@ -49,5 +50,10 @@ public class User
         var CreatedOnUtc = DateTime.UtcNow;
 
         return new User(id, userRoleId, userDto.FirstName, userDto.LastName, userDto.Email, userDto.Password, CreatedOnUtc);
+    }
+
+    public void SetLastName(string lastName)
+    {
+        LastName = lastName;
     }
 }

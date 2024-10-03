@@ -39,7 +39,7 @@ namespace RealEstatePro.Infrastructure.Migrations
 
                     b.HasIndex("EstateId");
 
-                    b.ToTable("EstateImages");
+                    b.ToTable("EstateImages", (string)null);
                 });
 
             modelBuilder.Entity("RealEstatePro.Domain.Estates.Estate", b =>
@@ -84,7 +84,7 @@ namespace RealEstatePro.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Estates");
+                    b.ToTable("Estates", (string)null);
                 });
 
             modelBuilder.Entity("RealEstatePro.Domain.Reservations.ReservationEntity", b =>
@@ -111,7 +111,7 @@ namespace RealEstatePro.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reservations");
+                    b.ToTable("Reservations", (string)null);
                 });
 
             modelBuilder.Entity("RealEstatePro.Domain.Roles.UserRole", b =>
@@ -126,7 +126,7 @@ namespace RealEstatePro.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("UserRoles", (string)null);
                 });
 
             modelBuilder.Entity("RealEstatePro.Domain.Users.User", b =>
@@ -164,7 +164,7 @@ namespace RealEstatePro.Infrastructure.Migrations
 
                     b.HasIndex("UserRoleId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("RealEstatePro.Domain.EstateImages.EstateImage", b =>
