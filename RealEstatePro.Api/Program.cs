@@ -33,7 +33,7 @@ builder.Services.AddHangfire((sp, config) =>
     config.UseRecommendedSerializerSettings();
     config.UseSqlServerStorage(connectionString);
 });
-builder.Services.AddScoped<UserRecurringJobs>();
+
 builder.Services.AddHangfireServer();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -61,10 +61,10 @@ app.UseHttpsRedirection();
 app.UseHangfireDashboard();
 
 RecurringJob.AddOrUpdate<UserRecurringJobs>("updateUser", x
-    => x.UpdateUserNameWrapper("ani@gmail.com"), "*/3 * * * *");
+    => x.UpdateUserName("ani@gmail.com"), "*/3 * * * *");
 
-RecurringJob.AddOrUpdate<UserRecurringJobs>("deleteUsers", x
-    => x.DeleteInactiveUser(), Cron.Daily);
+//RecurringJob.AddOrUpdate<UserRecurringJobs>("deleteUsers", x
+//    => x.DeleteInactiveUser(), Cron.Daily);
 
 app.UseAuthentication();
 

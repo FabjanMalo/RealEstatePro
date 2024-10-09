@@ -10,7 +10,7 @@ namespace RealEstatePro.Infrastructure.Users;
 public class UserRecurringJobs(RealEstateDbContext _dbContext)
 {
 
-    private async Task UpdateUserName(string email)
+    private async Task UpdateUser(string email)
     {
         var user = await _dbContext.Users
             .Where(u => u.Email == email)
@@ -18,11 +18,15 @@ public class UserRecurringJobs(RealEstateDbContext _dbContext)
 
         if (user is not null)
         {
-            user.SetLastName($"tomi{DateTime.Now.Minute}");
+            user.SetLastName($"ani{DateTime.Now.Minute}");
             _dbContext.Update(user);
             await _dbContext.SaveChangesAsync();
         }
 
+    }
+    public void UpdateUserName(string email)
+    {
+        UpdateUser(email).GetAwaiter().GetResult();
     }
 
     public void DeleteInactiveUser()
@@ -39,8 +43,5 @@ public class UserRecurringJobs(RealEstateDbContext _dbContext)
         }
     }
 
-    public void UpdateUserNameWrapper(string email)
-    {
-        UpdateUserName(email).GetAwaiter().GetResult();
-    }
+
 }
